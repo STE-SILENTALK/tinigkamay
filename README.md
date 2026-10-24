@@ -16,7 +16,8 @@ Before setting up the project, ensure you have the following installed:
 ## Install Script (Temporary Demo)
 ```batch
 @echo off
-echo Welcome to TINIGKAMAY Installation Portal (DEMO).
+echo ========================= Welcome to TINIGKAMAY Installation Portal (DEMO). =========================
+echo.
 echo Press any key to begin the installation. Please ensure you have a stable internet connection.
 pause >nul
 
@@ -44,13 +45,26 @@ call venv\Scripts\activate
 
 echo Downloading back-end dependencies...
 
-pip install -r requirements.txt
+:: pip install -r requirements.txt
 
 echo Back-end dependencies installed. Now installing front-end dependencies...
 
 cd %~dp0\tinigkamay\fsl-api\fsl-frontend
-npm install
+:: npm install
 
+echo Front-end dependencies installed. Now installing JS utilities...
+
+set "TARGET=%~dp0\tinigkamay\fsl-api\fsl-frontend\public\utils"
+if not exist "%TARGET%" mkdir "%TARGET%"
+curl --no-clobber "https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" -o "%TARGET%\camera_utils.js"
+curl --no-clobber "https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" -o "%TARGET%\drawing_utils.js"
+curl --no-clobber "https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" -o "%TARGET%\hands.js"
+curl --no-clobber "https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands_solution_packed_assets_loader.js" -o "%TARGET%\hands_solution_packed_assets_loader.js"
+curl --no-clobber "https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands_solution_simd_wasm_bin.js" -o "%TARGET%\hands_solution_simd_wasm_bin.js"
+
+echo Utils installed.
+echo.
+echo ========================================
 echo Installation complete. Press any key to close the installation window.
 pause >nul
 ```
