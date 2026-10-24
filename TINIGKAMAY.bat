@@ -4,8 +4,8 @@ title TINIGKAMAY
 taskkill /f /im node.exe
 taskkill /f /im python.exe
 
-start "" scripts/backend.bat
-start "" scripts/frontend.bat
+start "" scripts\backend.bat
+start "" scripts\frontend.bat
 
 :wait_loop
 netstat -ano | findstr :5173 >nul
