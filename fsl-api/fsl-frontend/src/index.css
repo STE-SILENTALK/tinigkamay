@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+body { 
+  font-family: 'Montserrat', sans-serif; 
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  *, *::before, *::after {
+    @apply transition-colors duration-300 ease-in-out;
+  }
+}
