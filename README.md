@@ -50,7 +50,7 @@ pip install -r requirements.txt
 echo Back-end dependencies installed. Now installing front-end dependencies...
 
 cd %~dp0\tinigkamay\fsl-api\fsl-frontend
-npm install
+call npm install
 
 echo Front-end dependencies installed. Now installing JS utilities...
 
