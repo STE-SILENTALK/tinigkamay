@@ -67,20 +67,24 @@ export default function MainMenu() {
                                           dark:bg-mist-700 dark:border-mist-500">
               
               {/* 👉 EDIT HERE: Yellow/Amber Microphone Icon Circle. Change 'bg-amber-100' and 'text-amber-700' to change colors */}
-              <div className="text-amber-700 mb-6 bg-amber-100 w-20 h-20 flex items-center justify-center rounded-full group-hover:-rotate-12 transition-transform shadow-inner">
+              <div className="text-amber-700 mb-6 bg-amber-100 w-20 h-20 flex items-center justify-center rounded-full group-hover:-rotate-12 transition-all shadow-inner
+                              dark:bg-amber-500 dark:text-amber-50">
                 <Mic size={36} strokeWidth={2.5} />
               </div>
 
               {/* 👉 EDIT HERE: Card 2 Title and Description */}
-              <h3 className="text-stone-800 font-black text-2xl mb-3 tracking-tight">
+              <h3 className="text-stone-800 font-black text-2xl mb-3 tracking-tight
+                            dark:text-mist-300">
                 Speech to Handsign
               </h3>
-              <p className="text-stone-500 text-sm mb-8 font-medium leading-relaxed">
+              <p className="text-stone-500 text-sm mb-8 font-medium leading-relaxed
+                            dark:text-mist-400">
                 Convert spoken words into animated sign language.
               </p>
 
               {/* 👉 EDIT HERE: Card 2 Button Text & Color ('bg-amber-200') */}
-              <div className="mt-auto bg-amber-200 text-amber-900 text-sm font-black tracking-wide px-8 py-4 rounded-full group-hover:bg-amber-300 transition-colors w-full shadow-sm">
+              <div className="mt-auto bg-amber-200 text-amber-900 text-sm font-black tracking-wide px-8 py-4 rounded-full group-hover:bg-amber-300 transition-colors w-full shadow-sm
+                              dark:bg-amber-600 dark:text-amber-100 dark:group-hover:bg-amber-700 dark:group-hover:text-amber-50">
                 Open Module
               </div>
             </Link>
