@@ -143,9 +143,11 @@ export default function Navbar() {
             - Change to="/admin" if you rename the admin URL route.
             - Change 'bg-emerald-200' to change the button background color.
             - Change <span>ADMIN</span> to rename the button text. */}
-        <Link to="/admin" className="text-emerald-900 font-black text-sm flex items-center gap-2 bg-emerald-200 px-6 py-3 rounded-full hover:bg-emerald-300 transition-colors shadow-sm">
+        <Link to="/admin" className="text-emerald-900 font-black text-sm flex items-center bg-emerald-200 px-6 py-3 rounded-full hover:bg-emerald-300 transition-colors shadow-sm group overflow-hidden">
           <Settings size={18} strokeWidth={2.5} />
-          <span>ADMIN</span>
+          <span className="max-w-0 opacity-0 whitespace-nowrap transition-all duration-500 ease-in-out group-hover:max-w-xs group-hover:opacity-100 group-hover:ml-2x group-hover:pl-2">
+          ADMIN
+          </span>
         </Link>
 
       </div>

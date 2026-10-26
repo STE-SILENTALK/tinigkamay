@@ -1,4 +1,7 @@
 @echo off
-cd %~dp0..\fsl-api\fsl-frontend
+title Vite (TINIGKAMAY)
+
+cd /d %~dp0..\fsl-api\fsl-frontend
 npm run dev
-pause
+
+exit
