@@ -26,7 +26,6 @@ start "Vite (TINIGKAMAY)" /min cmd /c scripts\frontend.bat
 
 :wait_vite
 
-
 netstat -ano | findstr :5173 >nul
 if %errorlevel% neq 0 (
     timeout /t 1 /nobreak >nul
@@ -98,8 +97,8 @@ for /f %%a in ('copy /Z "%~dpf0" nul') do set "CR=%%a"
 
 for /l %%i in (1,1,%loopCount%) do (
     for /l %%f in (1,1,21) do (
-        <nul set /p "=  !frame%%f! !CR!" 
-	ping 127.0.0.1 -n 1 -w 200 >nul      
+	set "current_frame=!frame%%f!"
+        <nul set /p "=  !current_frame! !CR!"       
     )
 )
 exit /b

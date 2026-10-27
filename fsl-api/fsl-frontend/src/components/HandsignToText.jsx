@@ -29,7 +29,7 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }
     // Loads Google MediaPipe Hands from the internet
     // MODIFIED: Loads from public folder
     const hands = new window.Hands({
-      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`,
+      locateFile: (file) => `/utils/${file}`,
     });
 
     // ------------------------------------------------------------------------
