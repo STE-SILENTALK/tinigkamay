@@ -97,6 +97,7 @@ for /f %%a in ('copy /Z "%~dpf0" nul') do set "CR=%%a"
 
 for /l %%i in (1,1,%loopCount%) do (
     for /l %%f in (1,1,21) do (
+	ping 127.0.0.0.0 -n 1 -w 300 >nul
 	set "current_frame=!frame%%f!"
         <nul set /p "=  !current_frame! !CR!"       
     )

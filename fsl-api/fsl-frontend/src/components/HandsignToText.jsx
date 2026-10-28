@@ -40,8 +40,8 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }
     hands.setOptions({
       maxNumHands: 2, 
       modelComplexity: 1,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5,
+      minDetectionConfidence: 0.7,
+      minTrackingConfidence: 0.7,
     });
 
     // Runs on every single camera frame
@@ -71,8 +71,8 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }
           // - #047857 is the dark green dot color on the finger joints
           // ------------------------------------------------------------------
           if (window.drawConnectors && window.drawLandmarks) {
-            window.drawConnectors(canvasCtx, landmarks, window.HAND_CONNECTIONS, { color: "#10b981", lineWidth: 3 });
-            window.drawLandmarks(canvasCtx, landmarks, { color: "#047857", lineWidth: 2 });
+            window.drawConnectors(canvasCtx, landmarks, window.HAND_CONNECTIONS, { color: "#3888d3", lineWidth: 3 });
+            window.drawLandmarks(canvasCtx, landmarks, { color: "#4d4bcf", lineWidth: 2 });
           }
 
           // Flips Left/Right label because the webcam is mirrored like a selfie
@@ -156,7 +156,7 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }
                     // - Lower this number (e.g., 50) if the AI is having a hard time showing your phrase.
                     // - Raise this number (e.g., 80) if the AI is guessing random wrong phrases too easily.
                     // --------------------------------------------------------
-                    if (dynamicData.prediction && dynamicData.confidence > 65) {
+                    if (dynamicData.prediction && dynamicData.confidence > 45) {
                       currentDetected = dynamicData.prediction;
                     }
                   }
@@ -211,6 +211,24 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }
       hands.close(); 
     };
   }, [onTelemetryUpdate, onPredictionUpdate]);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // EDIT: event.code === (key to be pressed to log signs)
+      if (event.code === 'Space' || event.key === ' ') {
+        event.preventDefault(); 
+        alert(prediction);
+      }
+    };
+
+    // Attach the event listener to the window object
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [prediction]);
 
   return (
     <div className="relative w-full aspect-[4/3] md:aspect-video bg-stone-900 rounded-[2.2rem] overflow-hidden shadow-inner flex flex-col items-center justify-center">

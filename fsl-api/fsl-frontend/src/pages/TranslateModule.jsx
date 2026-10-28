@@ -126,6 +126,8 @@ export default function TranslateModule() {
                  {telemetry.hand}
                </span>
              </div>
+
+             <span className="text-stone-500 text-[11px] font-medium">Press SPACE to log sign (WIP)</span>
            </div>
 
            {/* Box 2: Expandable Quick Reference Guide (Accordion) */}
