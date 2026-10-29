@@ -20,11 +20,12 @@ export default function TranslateModule() {
   // Stores the live hand name ("Left", "Right", "Both Hands") and confidence % sent up from HandsignToText.jsx
   const [telemetry, setTelemetry] = useState({ hand: 'Waiting...', confidence: 0 });
   const [currentPredictionText, setCurrentPredictionText] = useState("");
+  const [message, setMessage] = useState("");
 
   // Copies the currently detected sign/word to the user's clipboard when clicking "Copy Text"
   const handleCopy = () => {
-    if (!currentPredictionText) return;
-    navigator.clipboard.writeText(currentPredictionText);
+    if (!message) return;
+    navigator.clipboard.writeText(message);
     setCopied(true);
     // Resets the "Copied!" button text back to "Copy Text" after 2000ms (2 seconds)
     setTimeout(() => setCopied(false), 2000);
@@ -57,7 +58,9 @@ export default function TranslateModule() {
               {isCameraActive ? (
                 <HandsignToText 
                   onTelemetryUpdate={setTelemetry} 
-                  onPredictionUpdate={setCurrentPredictionText} 
+                  onPredictionUpdate={setCurrentPredictionText}
+                  message={message}
+                  setMessage={setMessage} 
                 />
               ) : (
                 /* 👉 EDIT HERE: Message shown inside the black box when the camera is turned off */
@@ -68,7 +71,9 @@ export default function TranslateModule() {
            </div>
 
            {/* Bottom Toolbar under the Camera (Turn Off Camera & Copy Text buttons) */}
-           <div className="bg-[#FAF8F5] px-6 py-4 rounded-[1.8rem] shadow-sm border-4 border-white flex items-center justify-between gap-4">
+           <div className="bg-[#FAF8F5] px-6 py-4 rounded-[1.8rem] shadow-sm border-4 border-white">
+
+            <div className="flex items-center justify-between gap-4 mb-5">
              
              {/* Button 1: Turn Camera On / Off */}
              <button 
@@ -79,6 +84,10 @@ export default function TranslateModule() {
                <span>{isCameraActive ? 'Turn Off Camera' : 'Turn On Camera'}</span>
              </button>
 
+             <div className="text-xs font-bold">
+              SPACE to log signs.
+             </div>
+
              {/* Button 2: Copy Translated Text */}
              {/* 👉 EDIT HERE: Change 'bg-emerald-200' to change the Copy button color */}
              <button 
@@ -88,6 +97,12 @@ export default function TranslateModule() {
                <Copy size={16} />
                <span>{copied ? 'Copied!' : 'Copy Text'}</span>
              </button>
+
+            </div>
+
+             <div className="text-center font-bold">
+              {message}
+             </div>
            </div>
          </div>
 
@@ -126,8 +141,6 @@ export default function TranslateModule() {
                  {telemetry.hand}
                </span>
              </div>
-
-             <span className="text-stone-500 text-[11px] font-medium">Press SPACE to log sign (WIP)</span>
            </div>
 
            {/* Box 2: Expandable Quick Reference Guide (Accordion) */}

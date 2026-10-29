@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from 'react';
 // This file turns on the webcam, draws the green skeleton lines on your hands,
 // and sends the hand positions to the Python backend (main.py) to guess the sign.
 // ============================================================================
-export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }) {
+export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, message, setMessage}) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [prediction, setPrediction] = useState("");
@@ -215,22 +215,41 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }
 
 
   // ------------------------------------------------------------------------
-  // 🍀 keybinds: SPACE to log sign and ENTER to swap modes
+  // 🍀 KEYBINDS AND SIGN LOGGING
   // ------------------------------------------------------------------------
 
-  let message = '';
-   
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      // EDIT: event.code === (key to be pressed to log signs)
-      if (event.code === 'Space' || event.key === ' ') {
-        event.preventDefault();
-        if (prediction) {
-            message = message + prediction + ' '
-            alert(message);
+  const addSignToMessage = () => {
+    setMessage(prevMessage => prevMessage + ' ' + prediction.replace(/\s+/g, '_'))
+  }
+
+  const removeSignFromMessage = () => {
+        setMessage((prevMessage) => {
+        const trimmed = prevMessage.trimEnd();
+        const lastSpaceIndex = trimmed.lastIndexOf(' ');
+
+        if (lastSpaceIndex === -1) {
+          return "";
         }
 
-      // EDIT: event.key === (key to be pressed to swap modes)
+        return trimmed.substring(0, lastSpaceIndex);
+        });
+  }
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      // EDIT: event.key === (key to be pressed to log the sign to the message)
+      if (event.code === 'Space' || event.key === ' ') {
+        event.preventDefault();
+        if (prediction && prediction != 'Tracking motion...') {
+          addSignToMessage();
+        }
+
+      // EDIT: event.key === (key to be pressed to delete a sign from the message)
+      } else if (event.key === 'Backspace' || event.key === 'Delete') {
+        event.preventDefault();
+        removeSignFromMessage();
+
+       // EDIT: event.key === (key to be pressed to swap modes) 
       } else if (event.key === 'Enter') {
         
         if (currentMode.current == 'static') {
@@ -249,7 +268,8 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [prediction]);
+  }, [prediction, setMessage]);
+
 
   return (
     <div className="relative w-full aspect-[4/3] md:aspect-video bg-stone-900 rounded-[2.2rem] overflow-hidden shadow-inner flex flex-col items-center justify-center">
