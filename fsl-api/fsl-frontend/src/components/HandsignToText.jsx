@@ -18,6 +18,7 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }
 
   // Keeps track of whether the user clicked "STATIC" or "DYNAMIC"
   const currentMode = useRef('static');
+
   useEffect(() => {
     currentMode.current = translationMode;
     frameBuffer.current = [];
@@ -212,12 +213,32 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate }
     };
   }, [onTelemetryUpdate, onPredictionUpdate]);
 
+
+  // ------------------------------------------------------------------------
+  // 🍀 keybinds: SPACE to log sign and ENTER to swap modes
+  // ------------------------------------------------------------------------
+
+  let message = '';
+   
   useEffect(() => {
     const handleKeyDown = (event) => {
       // EDIT: event.code === (key to be pressed to log signs)
       if (event.code === 'Space' || event.key === ' ') {
-        event.preventDefault(); 
-        alert(prediction);
+        event.preventDefault();
+        if (prediction) {
+            message = message + prediction + ' '
+            alert(message);
+        }
+
+      // EDIT: event.key === (key to be pressed to swap modes)
+      } else if (event.key === 'Enter') {
+        
+        if (currentMode.current == 'static') {
+          setTranslationMode('dynamic');
+        } else {
+          setTranslationMode('static');
+        }
+
       }
     };
 
