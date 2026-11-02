@@ -117,8 +117,8 @@ export default function AdminDashboard() {
       if (recordingState.current.isRecording) {
         const mode = recordingState.current.mode;
 
-        // 1. STATIC RECORDING: Captures 400 snapshots of a stationary hand sign
-        // 👉 EDIT HERE: If you change 400 below, also change 400 in the progress bar at the bottom!
+        // 1. STATIC RECORDING: Captures 200 snapshots of a stationary hand sign
+        // 👉 EDIT HERE: If you change 200 below, also change 200 in the progress bar at the bottom!
         if (mode === 'static' && hasHands) { 
           recordingState.current.tempDataset.push({
             label: recordingState.current.label,
@@ -127,7 +127,7 @@ export default function AdminDashboard() {
           recordingState.current.count += 1;
           setCaptureProgress(recordingState.current.count);
 
-          if (recordingState.current.count >= 400) {
+          if (recordingState.current.count >= 200) {
             recordingState.current.isRecording = false;
             const capturedFrames = [...recordingState.current.tempDataset];
             setStaticDataset(prev => [...prev, ...capturedFrames]);
@@ -306,8 +306,8 @@ export default function AdminDashboard() {
 
             {/* Start Recording Button with Progress Bar */}
             <button onClick={handleCapture} disabled={isCapturing} className={`w-full border-2 font-black py-4 rounded-2xl transition-all flex flex-col items-center justify-center overflow-hidden relative ${isCapturing ? 'bg-stone-100 text-stone-800' : 'bg-white hover:border-emerald-300 text-stone-700'}`}>
-              {isCapturing && <div className={`absolute left-0 top-0 bottom-0 transition-all duration-75 ${captureMode === 'static' ? 'bg-emerald-200' : 'bg-indigo-200'}`} style={{ width: `${(captureProgress / (captureMode === 'static' ? 400 : 30)) * 100}%` }}></div>}
-              <span className="relative z-10">{isCapturing ? `Capturing... (${captureProgress}/${captureMode === 'static' ? '400' : '30'})` : `Start Recording`}</span>
+              {isCapturing && <div className={`absolute left-0 top-0 bottom-0 transition-all duration-75 ${captureMode === 'static' ? 'bg-emerald-200' : 'bg-indigo-200'}`} style={{ width: `${(captureProgress / (captureMode === 'static' ? 200 : 30)) * 100}%` }}></div>}
+              <span className="relative z-10">{isCapturing ? `Capturing... (${captureProgress}/${captureMode === 'static' ? '200' : '30'})` : `Start Recording`}</span>
             </button>
 
             {/* Counter showing how many samples are queued */}
