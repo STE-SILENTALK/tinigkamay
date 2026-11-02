@@ -21,6 +21,7 @@ export default function TranslateModule() {
   const [telemetry, setTelemetry] = useState({ hand: 'Waiting...', confidence: 0 });
   const [currentPredictionText, setCurrentPredictionText] = useState("");
   const [message, setMessage] = useState("");
+  const [prevMessage, setPrevMessage] = useState("");
 
   // Copies the currently detected sign/word to the user's clipboard when clicking "Copy Text"
   const handleCopy = () => {
@@ -60,7 +61,8 @@ export default function TranslateModule() {
                   onTelemetryUpdate={setTelemetry} 
                   onPredictionUpdate={setCurrentPredictionText}
                   message={message}
-                  setMessage={setMessage} 
+                  setMessage={setMessage}
+                  setPrevMessage={setPrevMessage} 
                 />
               ) : (
                 /* 👉 EDIT HERE: Message shown inside the black box when the camera is turned off */
@@ -101,7 +103,7 @@ export default function TranslateModule() {
             </div>
 
              <div className="text-center font-bold">
-              {message}
+              {prevMessage}<span className="bg-emerald-200">{message}</span>
              </div>
            </div>
          </div>

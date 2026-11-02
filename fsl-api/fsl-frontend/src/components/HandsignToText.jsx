@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from 'react';
 // This file turns on the webcam, draws the green skeleton lines on your hands,
 // and sends the hand positions to the Python backend (main.py) to guess the sign.
 // ============================================================================
-export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, message, setMessage}) {
+export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, message, setMessage, prevMessage, setPrevMessage }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [prediction, setPrediction] = useState("");
@@ -219,12 +219,24 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, 
   // ------------------------------------------------------------------------
 
   const addSignToMessage = () => {
-    setMessage(prevMessage => prevMessage + ' ' + prediction.replace(/\s+/g, '_'))
+    const currentMessage = message;
+    setPrevMessage(prev => prev + currentMessage);
+    if (prediction && prediction != 'Tracking motion...') { 
+      const newMessage = (prediction.length === 1 || prediction === 'NG')
+        ? prediction
+        : ' ' + prediction.replace(/\s+/g, '_')
+      setMessage(newMessage)
+    } else {
+      setMessage(' ')
+    }
   }
 
   const removeSignFromMessage = () => {
-        setMessage((prevMessage) => {
-        const trimmed = prevMessage.trimEnd();
+    setMessage('')
+    setPrevMessage()
+        /*
+        setMessage((toMessage) => {
+        const trimmed = toMessage.trimEnd();
         const lastSpaceIndex = trimmed.lastIndexOf(' ');
 
         if (lastSpaceIndex === -1) {
@@ -233,6 +245,7 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, 
 
         return trimmed.substring(0, lastSpaceIndex);
         });
+        */
   }
 
   useEffect(() => {
@@ -240,9 +253,7 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, 
       // EDIT: event.key === (key to be pressed to log the sign to the message)
       if (event.code === 'Space' || event.key === ' ') {
         event.preventDefault();
-        if (prediction && prediction != 'Tracking motion...') {
-          addSignToMessage();
-        }
+        addSignToMessage();
 
       // EDIT: event.key === (key to be pressed to delete a sign from the message)
       } else if (event.key === 'Backspace' || event.key === 'Delete') {
@@ -307,6 +318,13 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, 
         >
           DYNAMIC MODE
         </button>
+
+        <div className="text-white font-black">
+        prediction: {prediction} <br />
+        message: {message} <br />
+        prevMessage: {prevMessage} <br />
+        </div>
+
 
       </div>
     </div>
