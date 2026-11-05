@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+let hands = null;
 
 // ============================================================================
 // CAMERA & AI HAND TRACKING BOX (HandsignToText.jsx)
@@ -27,11 +28,21 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, 
   }, [translationMode, onPredictionUpdate]);
 
   useEffect(() => {
-    // Loads Google MediaPipe Hands from the internet
-    // MODIFIED: Loads from public folder
-    const hands = new window.Hands({
-      locateFile: (file) => `/utils/${file}`,
-    });
+    // Loads Google MediaPipe Hands from public\utils
+    if (!hands) {
+      console.log("LOADING HANDS")
+
+      if (typeof window !== 'undefined') {
+        window.Module = undefined;
+      }
+      
+      hands = new window.Hands({
+        locateFile: (file) => {
+          console.log("locate", file);  
+          return `${window.location.origin}/utils/${file}`
+        },
+      });
+    }
 
     // ------------------------------------------------------------------------
     // 👉 EDIT HERE: Hand Detection Sensitivity
@@ -209,7 +220,12 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, 
 
     return () => { 
       if (camera) camera.stop(); 
-      hands.close(); 
+      if (hands) {
+        if (typeof hands.close === 'function') {
+            hands.close();
+        }
+        hands = null;
+      } 
     };
   }, [onTelemetryUpdate, onPredictionUpdate]);
 
