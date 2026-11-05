@@ -236,7 +236,8 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, 
 
   const addSignToMessage = () => {
     const currentMessage = message;
-    setPrevMessage(prev => prev + currentMessage);
+    setMessage(prev => prev + message.trim() + ' ');
+    /*
     if (prediction && prediction != 'Tracking motion...') { 
       const newMessage = (prediction.length === 1 || prediction === 'NG')
         ? prediction
@@ -245,12 +246,10 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, 
     } else {
       setMessage(' ')
     }
+      */
   }
 
   const removeSignFromMessage = () => {
-    setMessage('')
-    setPrevMessage()
-        /*
         setMessage((toMessage) => {
         const trimmed = toMessage.trimEnd();
         const lastSpaceIndex = trimmed.lastIndexOf(' ');
@@ -261,7 +260,6 @@ export default function HandsignToText({ onTelemetryUpdate, onPredictionUpdate, 
 
         return trimmed.substring(0, lastSpaceIndex);
         });
-        */
   }
 
   useEffect(() => {

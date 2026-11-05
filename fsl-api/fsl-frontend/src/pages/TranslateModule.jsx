@@ -103,7 +103,7 @@ export default function TranslateModule() {
             </div>
 
              <div className="text-center font-bold">
-              {prevMessage}<span className="bg-emerald-200">{message}</span>
+              {message}
              </div>
            </div>
          </div>

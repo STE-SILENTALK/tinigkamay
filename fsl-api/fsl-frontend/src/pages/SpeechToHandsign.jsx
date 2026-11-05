@@ -197,7 +197,7 @@ export default function SpeechToHandsign() {
             </div>
 
             {/* Video Player Box */}
-            <div className="relative w-full aspect-video bg-stone-900 rounded-[2rem] overflow-hidden flex items-center justify-center border-4 border-stone-800 shadow-inner group">
+            <div className="relative w-full aspect-square bg-stone-900 rounded-[2rem] overflow-hidden flex items-center justify-center border-4 border-stone-800 shadow-inner group">
               {currentSignUrl ? (
                 <>
                   <video 
@@ -205,7 +205,8 @@ export default function SpeechToHandsign() {
                     key={currentSignUrl}
                     src={currentSignUrl} 
                     autoPlay 
-                    muted 
+                    muted
+                    loop
                     onEnded={handleVideoEnd}
                     onError={() => setVideoError(true)} // Shows "No video file found" if the .mp4 doesn't exist
                     className="w-full h-full object-cover"
@@ -230,7 +231,6 @@ export default function SpeechToHandsign() {
               )}
             </div>
           </div>
-
           {/* Bottom Helper Tip reminding developers where to put the .mp4 files */}
           <div className="bg-stone-200/60 rounded-2xl p-4 text-center mt-4">
             <p className="text-stone-600 text-xs font-bold flex flex-col gap-1">
