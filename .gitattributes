@@ -1,0 +1,2 @@
+fsl_dataset.csv filter=lfs diff=lfs merge=lfs -text
+fsl_model.pkl filter=lfs diff=lfs merge=lfs -text
